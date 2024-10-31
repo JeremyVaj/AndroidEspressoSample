@@ -21,7 +21,7 @@ fun RequestFundsScreen(navController: NavController, viewModel: MainViewModel) {
     var errorMessage by remember { mutableStateOf("") }
 
     Scaffold(
-        modifier = Modifier.testTag("RequestFundsScreenTag") // Added to identify the screen for testing
+        modifier = Modifier.testTag("RequestFundsScreenTag")
     ) { contentPadding ->
         Box(
             modifier = Modifier

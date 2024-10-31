@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.compose.ui.platform.testTag // Import for testTag
+import androidx.compose.ui.platform.testTag
 
 @Composable
 fun AccountScreen(navController: NavController, viewModel: MainViewModel) {
