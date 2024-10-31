@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag // Import for testTag
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -23,7 +24,8 @@ fun LoginScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize() // Fill the entire screen
-            .padding(16.dp), // Padding around the content
+            .padding(16.dp) // Padding around the content
+            .testTag("LoginScreenTag"), // Add tag to identify LoginScreen
         contentAlignment = Alignment.Center // Center the content
     ) {
         // Column to arrange elements vertically
@@ -37,7 +39,9 @@ fun LoginScreen(navController: NavController) {
                 value = username,
                 onValueChange = { username = it },
                 label = { Text("Username") },
-                modifier = Modifier.fillMaxWidth() // Make the TextField full width
+                modifier = Modifier
+                    .fillMaxWidth() // Make the TextField full width
+                    .testTag("UsernameField") // Add test tag for Espresso
             )
             // Password TextField
             TextField(
@@ -45,11 +49,17 @@ fun LoginScreen(navController: NavController) {
                 onValueChange = { password = it },
                 label = { Text("Password") },
                 visualTransformation = PasswordVisualTransformation(),
-                modifier = Modifier.fillMaxWidth() // Make the TextField full width
+                modifier = Modifier
+                    .fillMaxWidth() // Make the TextField full width
+                    .testTag("PasswordField") // Add test tag for Espresso
             )
             // Display error message if any
             if (errorMessage.isNotEmpty()) {
-                Text(text = errorMessage, color = Color.Red)
+                Text(
+                    text = errorMessage,
+                    color = Color.Red,
+                    modifier = Modifier.testTag("ErrorMessage") // Add test tag for error message
+                )
             }
             // Login Button
             Button(
@@ -61,7 +71,9 @@ fun LoginScreen(navController: NavController) {
                         errorMessage = "Incorrect username or password."
                     }
                 },
-                modifier = Modifier.fillMaxWidth() // Make the Button full width
+                modifier = Modifier
+                    .fillMaxWidth() // Make the Button full width
+                    .testTag("LoginButton") // Add test tag for login button
             ) {
                 Text("Login")
             }

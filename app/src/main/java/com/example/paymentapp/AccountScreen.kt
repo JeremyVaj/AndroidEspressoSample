@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.compose.ui.platform.testTag // Import for testTag
 
 @Composable
 fun AccountScreen(navController: NavController, viewModel: MainViewModel) {
@@ -24,7 +25,9 @@ fun AccountScreen(navController: NavController, viewModel: MainViewModel) {
                 .fillMaxSize()
         ) {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .testTag("AccountScreenTag"), // Tag for testing
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -32,7 +35,8 @@ fun AccountScreen(navController: NavController, viewModel: MainViewModel) {
                 Text(
                     text = "Balance: $${viewModel.balance.value}",
                     fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.testTag("AccountScreenBalanceTag") // Tag for balance display
                 )
 
                 // Payment amount input
@@ -43,19 +47,26 @@ fun AccountScreen(navController: NavController, viewModel: MainViewModel) {
                     value = paymentAmount,
                     onValueChange = { input ->
                         paymentAmount = input
-                        errorMessage = if (input.isNotEmpty() && !input.all { it.isDigit() || it == '.' }) {
-                            "Please enter a valid numeric amount."
-                        } else {
-                            "" // Clear error message for valid input
+                        // Validate input: only numeric values or a single decimal point
+                        errorMessage = when {
+                            input.isEmpty() -> ""
+                            !input.all { it.isDigit() || it == '.' } -> "Please enter a valid numeric amount."
+                            else -> ""
                         }
                     },
                     label = { Text("Payment Amount") },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("PaymentAmountField") // Tag for payment amount input
                 )
 
                 // Display error message if any
                 if (errorMessage.isNotEmpty()) {
-                    Text(text = errorMessage, color = Color.Red)
+                    Text(
+                        text = errorMessage,
+                        color = Color.Red,
+                        modifier = Modifier.testTag("ErrorMessageTag") // Tag for error message
+                    )
                 }
 
                 // Submit payment button
@@ -65,7 +76,8 @@ fun AccountScreen(navController: NavController, viewModel: MainViewModel) {
                         if (amount != null) {
                             val error = viewModel.submitPayment(amount) // Handle payment submission
                             if (error == null) {
-                                navController.navigate("confirmation_screen?amount=${amount}") // Navigate on success
+                                // Pass the isFundRequest parameter as needed
+                                navController.navigate("confirmation_screen?amount=$amount&isFundRequest=false") // Navigate on success
                             } else {
                                 errorMessage = error // Show error if payment submission fails
                             }
@@ -73,7 +85,9 @@ fun AccountScreen(navController: NavController, viewModel: MainViewModel) {
                             errorMessage = "Please enter a valid amount." // Show error if amount is invalid
                         }
                     },
-                    modifier = Modifier.padding(top = 16.dp)
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .testTag("SubmitPaymentButton") // Tag for submit button
                 ) {
                     Text("Submit Payment")
                 }
@@ -83,7 +97,9 @@ fun AccountScreen(navController: NavController, viewModel: MainViewModel) {
                     onClick = {
                         navController.navigate("request_funds_screen") // Navigate to request funds screen
                     },
-                    modifier = Modifier.padding(top = 16.dp)
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .testTag("RequestFundsButton") // Tag for request funds button
                 ) {
                     Text("Request Funds")
                 }
@@ -97,6 +113,7 @@ fun AccountScreen(navController: NavController, viewModel: MainViewModel) {
                 modifier = Modifier
                     .padding(bottom = 16.dp)
                     .align(Alignment.BottomCenter)
+                    .testTag("LogOutButton") // Tag for log out button
             ) {
                 Text("Log Out")
             }
