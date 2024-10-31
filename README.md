@@ -1,3 +1,3 @@
 This is a Fake Payment Android app with a tag-based user flow automation framework using Espresso.
 
-Run CombinedScreenTests.kt to go through all tests
+Run app/src/androidTest/java/com/example/paymentapp/ConfirmationScreenTest.kt to go through all tests one after another.
