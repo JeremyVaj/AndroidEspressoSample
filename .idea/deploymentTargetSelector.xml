@@ -17,7 +17,7 @@
       <SelectionState runConfigName="backToAccountScreenButton_navigatesToAccountScreen()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CombinedScreenTests">
+      <SelectionState runConfigName="AllTestsSuite">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
